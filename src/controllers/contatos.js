@@ -28,7 +28,7 @@ module.exports = {
          return response.status(200).json({
 
             sucesso: true,
-            mensagem: 'lista de contatos',
+            mensagem: 'cadastro de contato',
             dados: null
 
          })
@@ -36,7 +36,7 @@ module.exports = {
       catch (error) {
          return response.status(500).json({
             sucesso: false,
-            mensagem: 'erro na listagem de Contato',
+            mensagem: 'erro no cadastro de Contato',
             dados: error.message
          })
       }
@@ -50,7 +50,7 @@ module.exports = {
          return response.status(200).json({
 
             sucesso: true,
-            mensagem: 'lista de contatos',
+            mensagem: 'editar contato',
             dados: null
 
          })
@@ -58,7 +58,7 @@ module.exports = {
       catch (error) {
          return response.status(500).json({
             sucesso: false,
-            mensagem: 'erro na listagem de Contato',
+            mensagem: 'erro ao editar Contato',
             dados: error.message
          })
       }
@@ -72,7 +72,7 @@ module.exports = {
          return response.status(200).json({
 
             sucesso: true,
-            mensagem: 'lista de contatos',
+            mensagem: 'apagar contato',
             dados: null
 
          })
@@ -80,7 +80,7 @@ module.exports = {
       catch (error) {
          return response.status(500).json({
             sucesso: false,
-            mensagem: 'erro na listagem de Contato',
+            mensagem: 'erro ao apagar contato',
             dados: error.message
          })
       }

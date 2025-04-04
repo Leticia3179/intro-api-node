@@ -23,7 +23,7 @@ module.exports = {
 
 
 
-   async cadastarContatos(request, response) {
+   async cadastrarContatos(request, response) {
       try {
          return response.status(200).json({
 

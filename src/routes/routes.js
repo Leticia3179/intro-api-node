@@ -3,7 +3,7 @@ const router = express.Router();
 
 const contatosController= require ('../controllers/contatos');
 const usuariosController= require ('../controllers/usuarios');
-const empresasController= require ('../controllers/empresa');
+const empresaController= require ('../controllers/empresa');
 
 router.get('/contatos', contatosController.listarContatos);
 router.post('/contatos', contatosController.cadastrarContatos);
@@ -21,9 +21,10 @@ router.delete('/usuarios', usuariosController.apagarUsuarios);
 
 
 
-router.get('/empresas', empresasController.listarEmpresa);
-router.post('/empresas', empresasController.cadastrarEmpresa);
-router.patch('empresas', empresasController.editarEmpresa);
-router.delete('/empresas', empresasController.apagarEmpresa);
+router.get('/empresa', empresaController.listarEmpresas);
+router.post('/empresa', empresaController.cadastrarEmpresas);
+router.patch('/empresa', empresaController.editarEmpresas);
+router.delete('/empresa', empresaController.apagarEmpresas);
+
 
 module.exports = router;

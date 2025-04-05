@@ -1,7 +1,7 @@
 const db = require('../database/connection');
 
 module.exports = {
-   async listarEmpresa(request, response) {
+   async listarEmpresas(request, response) {
       try {
          return response.status(200).json({
 
@@ -23,12 +23,12 @@ module.exports = {
 
 
 
-   async cadastrarEmpresa(request, response) {
+   async cadastrarEmpresas(request, response) {
       try {
          return response.status(200).json({
 
             sucesso: true,
-            mensagem: 'cadastro de empresa',
+            mensagem: 'cadastro de empresas',
             dados: null
 
          })
@@ -45,7 +45,7 @@ module.exports = {
 
 
 
-   async editarEmpresa(request, response) {
+   async editarEmpresas(request, response) {
       try {
          return response.status(200).json({
 
@@ -67,7 +67,7 @@ module.exports = {
 
 
 
-   async apagarEmpresa(request, response) {
+   async apagarEmpresas(request, response) {
       try {
          return response.status(200).json({
 

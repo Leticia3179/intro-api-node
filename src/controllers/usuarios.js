@@ -3,11 +3,25 @@ const db = require('../database/connection');
 module.exports = {
    async listarUsuarios(request, response) {
       try {
+
+
+         const sql = `
+              SELECT
+              usu_id, emp_id, usu_nome, usu_email, usu_senha 
+              FROM USUARIOS`;
+
+              const [row] =await db.query(sql);
+         const nItens = row.length;
+              
+
          return response.status(200).json({
 
             sucesso: true,
             mensagem: 'lista de usuarios',
-            dados: null
+            dados: null,
+            nItens,
+            dados: row
+
 
          })
       }

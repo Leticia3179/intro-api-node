@@ -3,11 +3,24 @@ const db = require('../database/connection');
 module.exports = {
    async listarEmpresas(request, response) {
       try {
+
+
+         const sql = `
+         SELECT
+         emp_id, emp_nome, emp_cnpj, emp_cel, emp_end 
+         FROM EMPRESA`;
+
+         const [row] =await db.query(sql);
+         const nItens = row.length;
+
+
          return response.status(200).json({
 
             sucesso: true,
             mensagem: 'lista de empresas',
-            dados: null
+            dados: null,
+            nItens,
+            dados: row,
 
          })
       }

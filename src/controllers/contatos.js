@@ -2,12 +2,26 @@ const db = require('../database/connection');
 
 module.exports = {
    async listarContatos(request, response) {
+
       try {
+
+
+         const sql = `
+         SELECT
+              cont_id, emp_id, cont_tipo, cont_desc 
+         FROM CONTATO`
+
+         const [row] =await db.query(sql);
+         const nItens = row.length;
+
+
          return response.status(200).json({
 
             sucesso: true,
             mensagem: 'lista de contatos',
-            dados: null
+            dados: null,
+            nItens,
+            dados: row
 
          })
       }

@@ -6,9 +6,9 @@ module.exports = {
 
 
          const sql = `
-              SELECT
-              usu_id, emp_id, usu_nome, usu_email, usu_senha 
-              FROM USUARIOS`;
+         SELECT
+            usu_id, emp_id, usu_nome, usu_email, usu_senha 
+         FROM USUARIOS`;
 
               const [row] =await db.query(sql);
          const nItens = row.length;
@@ -39,18 +39,31 @@ module.exports = {
 
    async cadastrarUsuarios(request, response) {
       try {
+
+         const {id_emp, nome, email, senha} = request.body;
+
+         const sql = `
+         INSERT INTO usuarios  
+         (emp_id, usu_nome, usu_email, usu_senha) 
+         VALUES
+         (?, ?, ?, ?,?);
+         `
+         const values = [id_emp, nome, email, senha];
+         const [result] = await bd.query(sql, values);
+
+
          return response.status(200).json({
 
             sucesso: true,
             mensagem: 'cadastro de usuario',
-            dados: null
+            dados: dados
 
          })
       }
       catch (error) {
          return response.status(500).json({
             sucesso: false,
-            mensagem: 'erro no cadastro de usuario',
+            mensagem: 'erro ao cadastrar usuario',
             dados: error.message
          })
       }

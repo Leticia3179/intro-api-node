@@ -8,7 +8,7 @@ module.exports = {
 
          const sql = `
          SELECT
-              cont_id, emp_id, cont_tipo, cont_desc 
+            cont_id, emp_id, cont_tipo, cont_desc 
          FROM CONTATO`
 
          const [row] =await db.query(sql);

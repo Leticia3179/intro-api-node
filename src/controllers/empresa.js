@@ -38,13 +38,16 @@ module.exports = {
 
    async cadastrarEmpresas(request, response) {
       try {
+
+
          return response.status(200).json({
 
             sucesso: true,
-            mensagem: 'cadastro de empresas',
-            dados: null
+            mensagem: 'cadastro de empresa',
+            dados: dados
 
          })
+
       }
       catch (error) {
          return response.status(500).json({

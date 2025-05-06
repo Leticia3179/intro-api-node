@@ -40,18 +40,6 @@ module.exports = {
    async cadastrarUsuarios(request, response) {
       try {
 
-         const {id_emp, nome, email, senha} = request.body;
-
-         const sql = `
-         INSERT INTO usuarios  
-         (emp_id, usu_nome, usu_email, usu_senha) 
-         VALUES
-         (?, ?, ?, ?,?);
-         `
-         const values = [id_emp, nome, email, senha];
-         const [result] = await bd.query(sql, values);
-
-
          return response.status(200).json({
 
             sucesso: true,
@@ -63,7 +51,7 @@ module.exports = {
       catch (error) {
          return response.status(500).json({
             sucesso: false,
-            mensagem: 'erro ao cadastrar usuario',
+            mensagem: 'erro na requesição',
             dados: error.message
          })
       }

@@ -39,38 +39,41 @@ module.exports = {
 
    async cadastrarContatos(request, response) {
       try {
-
-                const { emp_id, cont_tipo, cont_desc } = request.body;
-    
-                const sql = `
-                    INSERT INTO contatos (emp_id, cont_tipo, cont_desc))
-                    VALUES (?, ?, ?)
-                `;
-    
-                const values = [emp_id, cont_tipo, cont_desc];
-                const [result] = await db.query(sql, values);
-    
-                const dados = {
-                  id: result.insertId,
-                  cont_tipo, 
-                  cont_desc
-                };
-    
-
-
-
-         return response.status(200).json({
-
+         const { emp_id, cont_tipo, cont_desc } = request.body;
+   
+         // Verificação de campos obrigatórios
+         if (!emp_id || !cont_tipo || !cont_desc) {
+            return response.status(400).json({
+               sucesso: false,
+               mensagem: 'Campos obrigatórios ausentes: emp_id, cont_tipo, cont_desc',
+               dados: null
+            });
+         }
+   
+         const sql = `
+            INSERT INTO CONTATO (emp_id, cont_tipo, cont_desc)
+            VALUES (?, ?, ?)
+         `;
+   
+         const values = [emp_id, cont_tipo, cont_desc];
+         const [result] = await db.query(sql, values);
+   
+         const dados = {
+            id: result.insertId,
+            emp_id,
+            cont_tipo,
+            cont_desc
+         };
+   
+         return response.status(201).json({
             sucesso: true,
-            mensagem: 'cadastro de contato',
-            dados: dados
-
-         })
-      }
-      catch (error) {
+            mensagem: 'Contato cadastrado com sucesso',
+            dados
+         });
+      } catch (error) {
          return response.status(500).json({
             sucesso: false,
-            mensagem: 'erro no cadastro de Contato',
+            mensagem: 'Erro no cadastro de Contato',
             dados: error.message
          })
       }

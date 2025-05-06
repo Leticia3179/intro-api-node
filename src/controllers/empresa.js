@@ -38,25 +38,55 @@ module.exports = {
 
    async cadastrarEmpresas(request, response) {
       try {
-
-
-         return response.status(200).json({
-
+         // Obtendo os dados do corpo da requisição
+         const { emp_nome, emp_cnpj, emp_cel, emp_end } = request.body;
+   
+         // Validação dos campos obrigatórios
+         if (!emp_nome || !emp_cnpj || !emp_cel || !emp_end) {
+            return response.status(400).json({
+               sucesso: false,
+               mensagem: 'Campos obrigatórios ausentes: emp_nome, emp_cnpj, emp_cel, emp_end',
+               dados: null
+            });
+         }
+   
+         // SQL para inserir os dados na tabela EMPRESA
+         const sql = `
+            INSERT INTO EMPRESA (emp_nome, emp_cnpj, emp_cel, emp_end)
+            VALUES (?, ?, ?, ?)
+         `;
+   
+         // Valores a serem inseridos na tabela
+         const values = [emp_nome, emp_cnpj, emp_cel, emp_end];
+         
+         // Executa a query de inserção
+         const [result] = await db.query(sql, values);
+   
+         // Dados que foram cadastrados
+         const dados = {
+            id: result.insertId,
+            emp_nome,
+            emp_cnpj,
+            emp_cel,
+            emp_end
+         };
+   
+         // Resposta de sucesso com os dados cadastrados
+         return response.status(201).json({
             sucesso: true,
-            mensagem: 'cadastro de empresa',
-            dados: dados
-
-         })
-
-      }
-      catch (error) {
+            mensagem: 'Empresa cadastrada com sucesso',
+            dados
+         });
+      } catch (error) {
+         // Caso haja um erro na execução
          return response.status(500).json({
             sucesso: false,
-            mensagem: 'erro no cadastro de empresa',
+            mensagem: 'Erro no cadastro da empresa',
             dados: error.message
-         })
+         });
       }
    },
+   
 
 
 

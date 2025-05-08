@@ -7,24 +7,24 @@ const empresaController= require ('../controllers/empresa');
 
 router.get('/contatos', contatosController.listarContatos);
 router.post('/contatos', contatosController.cadastrarContatos);
-router.patch('/contatos', contatosController.editarContatos);
-router.delete('/contatos', contatosController.apagarContatos);
+router.patch('/contatos/:id', contatosController.editarContatos);
+router.delete('/contatos/:id', contatosController.apagarContatos);
 
 
 
 
 router.get('/usuarios', usuariosController.listarUsuarios);
 router.post('/usuarios', usuariosController.cadastrarUsuarios);
-router.patch('/usuarios', usuariosController.editarUsuarios);
-router.delete('/usuarios', usuariosController.apagarUsuarios);
+router.patch('/usuarios/:id', usuariosController.editarUsuarios);
+router.delete('/usuarios/:id', usuariosController.apagarUsuarios);
 
 
 
 
 router.get('/empresa', empresaController.listarEmpresas);
 router.post('/empresa', empresaController.cadastrarEmpresas);
-router.patch('/empresa', empresaController.editarEmpresas);
-router.delete('/empresa', empresaController.apagarEmpresas);
+router.patch('/empresa/:id', empresaController.editarEmpresas);
+router.delete('/empresa/:id', empresaController.apagarEmpresas);
 
 
 module.exports = router;

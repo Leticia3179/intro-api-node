@@ -40,7 +40,7 @@ module.exports = {
       try {
          const { emp_id, usu_nome, usu_email, usu_senha } = request.body;
    
-         // Validação dos campos obrigatórios
+        
          if (!emp_id || !usu_nome || !usu_email || !usu_senha) {
             return response.status(400).json({
                sucesso: false,
@@ -49,25 +49,25 @@ module.exports = {
             });
          }
    
-         // SQL para inserir os dados na tabela USUARIOS
+        
          const sql = `
             INSERT INTO USUARIOS (emp_id, usu_nome, usu_email, usu_senha)
             VALUES (?, ?, ?, ?)
          `;
    
-         // Valores a serem inseridos na tabela
+         
          const values = [emp_id, usu_nome, usu_email, usu_senha];
    
-         // Executa a query de inserção
+        
          const [result] = await db.query(sql, values);
    
-         // Dados que foram cadastrados
+         
          const dados = {
             id: result.insertId,
             emp_id,
             usu_nome,
             usu_email,
-            usu_senha  // Senha não é alterada, armazenada em texto puro
+            usu_senha  
          };
    
          return response.status(201).json({
@@ -88,42 +88,84 @@ module.exports = {
 
    async editarUsuarios(request, response) {
       try {
-         return response.status(200).json({
-
-            sucesso: true,
-            mensagem: 'editar usuario',
-            dados: null
-
-         })
-      }
-      catch (error) {
-         return response.status(500).json({
+        const { emp_id, usu_nome, usu_email, usu_senha } = request.body;
+        const { id } = request.params;
+    
+        const sql = `
+          UPDATE usuarios
+          SET emp_id = ?, usu_nome = ?, usu_email = ?, usu_senha = ?
+          WHERE usu_id = ?;
+        `;
+    
+        const values = [emp_id, usu_nome, usu_email, usu_senha, id];
+        const [result] = await db.query(sql, values);
+    
+        if (result.affectedRows === 0) {
+          return response.status(404).json({
             sucesso: false,
-            mensagem: 'erro ao editar usuario',
-            dados: error.message
-         })
+            mensagem: `Usuário ${id} não encontrado`,
+            dados: null,
+          });
+        }
+    
+        const dados = {
+          id,
+          emp_id,
+          usu_nome,
+          usu_email
+          
+        };
+    
+        return response.status(200).json({
+          sucesso: true,
+          mensagem: 'Usuário editado com sucesso',
+          dados
+        });
+      } catch (error) {
+        return response.status(500).json({
+          sucesso: false,
+          mensagem: 'Erro ao editar usuário',
+          dados: error.message
+        });
       }
-   },
+    },
 
 
 
 
-   async apagarUsuarios(request, response) {
+    async apagarUsuarios(request, response) {
       try {
-         return response.status(200).json({
-
-            sucesso: true,
-            mensagem: 'apagar usuario',
-            dados: null
-
-         })
-      }
-      catch (error) {
-         return response.status(500).json({
+        const { id } = request.params;
+    
+        const sql = `DELETE FROM usuarios WHERE usu_id = ?`;
+    
+        const values = [id]; 
+    
+        const [result] = await db.query(sql, values);
+    
+        if (result.affectedRows === 0) {
+          return response.status(404).json({
             sucesso: false,
-            mensagem: 'erro ao apagar usuario',
-            dados: error.message
-         })
+            mensagem: `Usuário ${id} não encontrado`,
+            dados: null
+          });
+        }
+    
+        return response.status(200).json({
+          sucesso: true,
+          mensagem: `Usuário ${id} apagado com sucesso`,
+          dados: null,
+        });
+      } 
+      
+      
+      catch (error) {
+        return response.status(500).json({
+          sucesso: false,
+          mensagem: 'Erro ao apagar usuário',
+          dados: error.message
+        });
       }
-   },
+    }
+    
 }

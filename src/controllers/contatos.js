@@ -41,7 +41,7 @@ module.exports = {
       try {
          const { emp_id, cont_tipo, cont_desc } = request.body;
    
-         // Verificação de campos obrigatórios
+        
          if (!emp_id || !cont_tipo || !cont_desc) {
             return response.status(400).json({
                sucesso: false,
@@ -84,32 +84,74 @@ module.exports = {
 
    async editarContatos(request, response) {
       try {
-         return response.status(200).json({
-
-            sucesso: true,
-            mensagem: 'editar contato',
-            dados: null
-
-         })
-      }
-      catch (error) {
-         return response.status(500).json({
+        const { emp_id, cont_tipo, cont_desc } = request.body;
+        const { id } = request.params;
+    
+        const sql = `
+          UPDATE contato
+          SET emp_id = ?, cont_tipo = ?, cont_desc = ?
+          WHERE cont_id = ?;
+        `;
+    
+        const values = [emp_id, cont_tipo, cont_desc, id];
+        const [result] = await db.query(sql, values);
+    
+        if (result.affectedRows === 0) {
+          return response.status(404).json({
             sucesso: false,
-            mensagem: 'erro ao editar Contato',
-            dados: error.message
-         })
+            mensagem: `Contato ${id} não encontrado`,
+            dados: null,
+          });
+        }
+    
+        const dados = {
+          id,
+          emp_id,
+          cont_tipo,
+          cont_desc,
+        };
+    
+        return response.status(200).json({
+          sucesso: true,
+          mensagem: 'Contato editado com sucesso',
+          dados,
+        });
+      } catch (error) {
+        return response.status(500).json({
+          sucesso: false,
+          mensagem: 'Erro ao editar contato',
+          dados: error.message,
+        });
       }
-   },
+    },
+    
 
 
 
 
    async apagarContatos(request, response) {
       try {
+
+
+         const { id } = request.params;
+    
+         const sql = `DELETE FROM contato WHERE cont_id = ?`;
+         const values = [id]; 
+     
+         const [result] = await db.query(sql, values);
+     
+         if (result.affectedRows === 0) {
+           return response.status(404).json({
+             sucesso: false,
+             mensagem: `Contato ${id} não encontrado`,
+             dados: null
+           });
+         }
+
          return response.status(200).json({
 
             sucesso: true,
-            mensagem: 'apagar contato',
+            mensagem: `Contato ${id} apagado`,
             dados: null
 
          })

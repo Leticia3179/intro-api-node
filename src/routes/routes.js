@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router();
 
-const routesLeticia = require('./routes-leticia');
+const routes_leticia = require('./routes-leticia');
 
-router.use('/', routesLeticia)
+router.use('/', routes_leticia)
 
 module.exports = router;

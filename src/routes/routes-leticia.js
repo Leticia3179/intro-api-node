@@ -17,6 +17,7 @@ router.get('/usuarios', usuariosController.listarUsuarios);
 router.post('/usuarios', usuariosController.cadastrarUsuarios);
 router.patch('/usuarios/:id', usuariosController.editarUsuarios);
 router.delete('/usuarios/:id', usuariosController.apagarUsuarios);
+router.post('/login', usuariosController.login);
 
 
 

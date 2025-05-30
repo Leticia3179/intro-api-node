@@ -166,6 +166,55 @@ module.exports = {
           dados: error.message
         });
       }
-    }
+    },
+
+
+
+
+   
+    async login(request, response) {
+      try {
+        const { email, senha } = request.query;
     
+        if (!email || !senha) {
+          return response.status(400).json({
+            sucesso: false,
+            mensagem: 'Email e senha são obrigatórios',
+            dados: null
+          });
+        }
+    
+        const sql = `
+          SELECT usu_id, usu_nome, usu_email
+          FROM usuarios
+          WHERE usu_email = ? AND usu_senha = ?;
+        `;
+    
+        const values = [email, senha];
+    
+        const [rows] = await db.query(sql, values);
+        const nItens = rows.length;
+    
+        if (nItens < 1) {
+          return response.status(403).json({
+            sucesso: false,
+            mensagem: 'Login e/ou senha inválido',
+            dados: null
+          });
+        }
+    
+        return response.status(200).json({
+          sucesso: true,
+          mensagem: 'Login efetuado com sucesso',
+          dados: rows
+        });
+    
+      } catch (error) {
+        return response.status(500).json({
+          sucesso: false,
+          mensagem: 'Erro na requisição',
+          dados: error.message
+        });
+      }
+    }
 }
